@@ -15,7 +15,6 @@ let song_toothbrush;
 
 //states
 let gameState;
-
 let play_book = false;
 let play_bottle = false;
 let play_bowl = false;
@@ -24,6 +23,16 @@ let play_cup = false;
 let play_person = false;
 let play_spoon = false;
 let play_toothbrush = false;
+
+//images
+let book;
+let bottle;
+let bowl;
+let phone;
+let cup;
+let person;
+let spoon;
+let toothbrush;
 
 function preload() {
   detector = ml5.objectDetector('cocossd');
@@ -57,6 +66,16 @@ function setup() {
   detector.detect(video, gotDetections);
 
   gameState = "start";
+
+  //images
+  book = loadImage("/media/book.png");
+  bottle = loadImage("/media/bottle.png");
+  bowl = loadImage("/media/bowl.png");
+  cup = loadImage("/media/cup.png");
+  person = loadImage("/media/person.png");
+  phone = loadImage("/media/phone.png");
+  spoon = loadImage("/media/spoon.png");
+  toothbrush = loadImage("/media/toothbrush.png");
 }
 
 function mousePressed(){
@@ -83,35 +102,92 @@ function mousePressed(){
   }
 
   if (gameState == "play"){
+    if (play_book == true){
+      song_book.setVolume(1);
+    }
+    if (play_bottle == true){
+      song_bottle.setVolume(1);
+    }
+    if (play_bowl == true){
+      song_bowl.setVolume(1);
+    }
+    if (play_phone == true){
+      song_phone.setVolume(1);
+    }
+    if (play_cup == true){
+      song_cup.setVolume(1);
+    }
     if (play_person == true){
       song_person.setVolume(1);
+    }
+    if (play_spoon == true){
+      song_spoon.setVolume(1);
+    }
+    if (play_toothbrush == true){
+      song_toothbrush.setVolume(1);
     }
   }
 }
 
 function draw() {
-  background(0);
+  background(255);
   if (gameState == "start"){
-    fill(255);
+    fill(0);
+    textAlign(CENTER);
     textSize(24);
-    text("press to start", 500, 500);
+    text("Wait to start...", width/2, height/2);
   }
 
   if (gameState == "play"){
     for (let i = 0; i < detections.length; i++) {
       let object = detections[i];
-      
-      console.log(object.label)
 
+      if (object.label == "book"){
+        fill(255);
+        image(book, object.x, object.y);
+        play_book = true;
+      }
 
-      
+      if (object.label == "bottle"){
+        fill(255);
+        image(bottle, object.x, object.y);
+        play_bottle = true;
+      }
+
+      if (object.label == "bowl"){
+        fill(255);
+        image(bowl, object.x, object.y);
+        play_bowl = true;
+      }
+
+      if (object.label == "cell phone"){
+        fill(255);
+        image(phone, object.x, object.y);
+        play_phone = true;
+      }
+
+      if (object.label == "cup"){
+        fill(255);
+        image(cup, object.x, object.y);
+        play_cup = true;
+      }
+
       if (object.label == "person"){
         fill(255);
-        rect(object.x, object.y, object.width, object.height);
+        image(person, object.x, object.y);
+        play_person = true;
+      }
 
-        if((mouseX>object.x)&&(mouseX<object.width)&&(mouseY>object.y)&&(mouseY<object.width)){
-          play_person = true;
-        }
+      if (object.label == "spoon"){
+        fill(255);
+        image(spoon, object.x, object.y);
+        play_spoon = true;
+      }
+
+      if (object.label == "toothbrush"){
+        fill(255);
+        image(toothbrush, object.x, object.y);
+        play_toothbrush = true;
       }
 
     }
